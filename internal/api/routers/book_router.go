@@ -19,7 +19,7 @@ func ConfigureBookRoutes(router *gin.Engine) {
 		books.POST("/", handlers.CreateBook)
 		books.GET("/", handlers.GetBooks)
 		books.GET("/:id", handlers.GetBook)
-		books.PATCH("/:id", handlers.UpdateUser)
-		books.DELETE("/:id", handlers.DeleteUser)
+		books.PATCH("/:id", handlers.UpdateBook)
+		books.DELETE("/:id", handlers.DeleteBook)
 	}
 }
