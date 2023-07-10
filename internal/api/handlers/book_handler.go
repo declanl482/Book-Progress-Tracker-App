@@ -6,7 +6,7 @@ import (
 
 	"example/go-book-tracker-app/internal/api/models"
 	"example/go-book-tracker-app/internal/database"
-	"example/go-book-tracker-app/internal/middlewares"
+	"example/go-book-tracker-app/internal/middlewares/oauth2"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -14,7 +14,7 @@ import (
 
 func CreateBook(c *gin.Context) {
 
-	currentUser := middlewares.GetCurrentUser(c)
+	currentUser := oauth2.GetCurrentUser(c)
 
 	if currentUser == nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
@@ -48,7 +48,7 @@ func CreateBook(c *gin.Context) {
 
 func GetBooks(c *gin.Context) {
 
-	currentUser := middlewares.GetCurrentUser(c)
+	currentUser := oauth2.GetCurrentUser(c)
 	if currentUser == nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
@@ -73,7 +73,7 @@ func GetBooks(c *gin.Context) {
 func GetBook(c *gin.Context) {
 
 	// check that the user is authenticated
-	currentUser := middlewares.GetCurrentUser(c)
+	currentUser := oauth2.GetCurrentUser(c)
 	if currentUser == nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
@@ -113,7 +113,7 @@ func GetBook(c *gin.Context) {
 func UpdateBook(c *gin.Context) {
 
 	// check that the user is authenticated
-	currentUser := middlewares.GetCurrentUser(c)
+	currentUser := oauth2.GetCurrentUser(c)
 	if currentUser == nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
@@ -166,7 +166,7 @@ func UpdateBook(c *gin.Context) {
 func DeleteBook(c *gin.Context) {
 
 	// Get the current user sending the delete request
-	currentUser := middlewares.GetCurrentUser(c)
+	currentUser := oauth2.GetCurrentUser(c)
 
 	if currentUser == nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})

@@ -1,4 +1,4 @@
-package middlewares
+package oauth2
 
 import (
 	"example/go-book-tracker-app/internal/api/models"
@@ -87,7 +87,7 @@ func GetCurrentUser(c *gin.Context) *models.User {
 
 // TODO: Write authentication middleware
 
-func AuthenticationMiddleware() gin.HandlerFunc {
+func JWTAccessTokenMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		user := GetCurrentUser(c)
 		if user == nil {

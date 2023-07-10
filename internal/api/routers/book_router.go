@@ -3,6 +3,7 @@ package routers
 import (
 	"example/go-book-tracker-app/internal/api/handlers"
 	"example/go-book-tracker-app/internal/middlewares"
+	"example/go-book-tracker-app/internal/middlewares/oauth2"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,7 +15,7 @@ func ConfigureBookRoutes(router *gin.Engine) {
 	books := router.Group("/books")
 	books.Use(middlewares.CORSMiddleware())
 	books.Use(middlewares.DBConnectionMiddleware())
-	books.Use(middlewares.AuthenticationMiddleware())
+	books.Use(oauth2.JWTAccessTokenMiddleware())
 	{
 		books.POST("/", handlers.CreateBook)
 		books.GET("/", handlers.GetBooks)

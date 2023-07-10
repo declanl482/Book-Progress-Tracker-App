@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"example/go-book-tracker-app/internal/middlewares"
+	"example/go-book-tracker-app/internal/middlewares/oauth2"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -64,7 +64,7 @@ func CreateUser(c *gin.Context) {
 
 func GetUser(c *gin.Context) {
 
-	currentUser := middlewares.GetCurrentUser(c)
+	currentUser := oauth2.GetCurrentUser(c)
 	if currentUser == nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
@@ -105,7 +105,7 @@ func GetUser(c *gin.Context) {
 func UpdateUser(c *gin.Context) {
 
 	// Get the current user sending the update request
-	currentUser := middlewares.GetCurrentUser(c)
+	currentUser := oauth2.GetCurrentUser(c)
 
 	if currentUser == nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
@@ -156,7 +156,7 @@ func UpdateUser(c *gin.Context) {
 func DeleteUser(c *gin.Context) {
 
 	// Get the current user sending the delete request
-	currentUser := middlewares.GetCurrentUser(c)
+	currentUser := oauth2.GetCurrentUser(c)
 
 	if currentUser == nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
