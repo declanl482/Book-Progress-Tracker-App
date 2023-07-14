@@ -1,4 +1,4 @@
-package oauth2
+package middlewares
 
 import (
 	"example/go-book-tracker-app/internal/api/models"
@@ -17,7 +17,7 @@ func CreateJWTAccessToken(userID string) (string, error) {
 	// Create the claims
 	claims := jwt.MapClaims{
 		"user_id": userID,
-		"exp":     time.Now().Add(time.Minute * 3).Unix(),
+		"exp":     time.Now().Add(time.Minute * 1).Unix(),
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
@@ -61,17 +61,17 @@ func VerifyJWTAccessToken(tokenString string) (string, error) {
 	return userID, nil
 }
 
-func GetCurrentUser(c *gin.Context) *models.User {
+func GetCurrentUserFromAccessToken(c *gin.Context) *models.User {
 
 	// get access token from authorization header
 	authHeader := c.GetHeader("Authorization")
 	if authHeader == "" {
 		return nil
 	}
-	tokenString := strings.Replace(authHeader, "Bearer ", "", 1)
+	accessToken := strings.Replace(authHeader, "Bearer ", "", 1)
 
 	// verify the access token
-	userID, err := VerifyJWTAccessToken(tokenString)
+	userID, err := VerifyJWTAccessToken(accessToken)
 	if err != nil {
 		return nil
 	}
@@ -80,27 +80,27 @@ func GetCurrentUser(c *gin.Context) *models.User {
 	var user models.User
 	result := database.GetDB().First(&user, userID)
 	if result.Error != nil {
+
 		return nil
 	}
 	return &user
 }
 
-// TODO: Write authentication middleware
-
 func JWTAccessTokenMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		user := GetCurrentUser(c)
+		user := GetCurrentUserFromAccessToken(c)
 		if user == nil {
-			fmt.Println("BAM!")
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+			// the access token is not verified
+
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "could not verify access token"})
 			c.Abort()
 			return
 		}
-
+		// access token is verified
 		// Set the current user in the context
-		c.Set("currentUser", &user)
+		c.Set("currentUser", user)
 
 		// Continue to the next handler
-		c.Next()
+		c.Next() // move onto the refresh token middleware
 	}
 }

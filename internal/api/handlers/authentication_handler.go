@@ -3,7 +3,7 @@ package handlers
 import (
 	"example/go-book-tracker-app/internal/api/models"
 	"example/go-book-tracker-app/internal/database"
-	"example/go-book-tracker-app/internal/middlewares/oauth2"
+	"example/go-book-tracker-app/internal/middlewares"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -43,7 +43,7 @@ func LoginUser(c *gin.Context) {
 
 	// Create an access token
 	fmt.Println(strconv.Itoa(int(user.ID)))
-	accessToken, err := oauth2.CreateJWTAccessToken(strconv.Itoa(int(user.ID)))
+	accessToken, err := middlewares.CreateJWTAccessToken(strconv.Itoa(int(user.ID)))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to create access token"})
 		return
