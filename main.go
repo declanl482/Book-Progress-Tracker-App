@@ -14,9 +14,13 @@ import (
 
 func main() {
 
-	config.Load()
+	err := config.LoadApplicationConfigurationVariables()
+	if err != nil {
+		fmt.Println("Failed to load application configuration variables:", err)
+		return
+	}
 
-	_, err := database.ConnectToDB()
+	_, err = database.ConnectToDB()
 	if err != nil {
 		fmt.Println("Failed to connect to the database:", err)
 		return
