@@ -31,7 +31,7 @@ func CreateBook(c *gin.Context) {
 	newBook.OwnerID = currentUser.ID
 
 	// save the new book to the database
-	result := database.GetDB().Create(&newBook)
+	result := database.GetInstanceOfApplicationDatabase().Create(&newBook)
 	if result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to create book"})
 		return
@@ -57,7 +57,7 @@ func GetBooks(c *gin.Context) {
 
 	// Retrieve all books from the database where book[i].ownerID == currentUser.ID
 
-	result := database.GetDB().Where("owner_id = ?", currentUser.ID).Find(&books)
+	result := database.GetInstanceOfApplicationDatabase().Where("owner_id = ?", currentUser.ID).Find(&books)
 	if result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to retrieve books"})
 		return
@@ -88,7 +88,7 @@ func GetBook(c *gin.Context) {
 	// Fetch the requested book from the database
 
 	book := models.Book{}
-	result := database.GetDB().First(&book, id)
+	result := database.GetInstanceOfApplicationDatabase().First(&book, id)
 
 	if result.Error != nil {
 		c.IndentedJSON(http.StatusNotFound, gin.H{"error": "book not found"})
@@ -128,7 +128,7 @@ func UpdateBook(c *gin.Context) {
 	// Fetch book from database
 	book := models.Book{}
 
-	result := database.GetDB().First(&book, id)
+	result := database.GetInstanceOfApplicationDatabase().First(&book, id)
 	if result.Error != nil {
 		c.IndentedJSON(http.StatusNotFound, gin.H{"error": "book not found"})
 		return
@@ -151,7 +151,7 @@ func UpdateBook(c *gin.Context) {
 	book.UpdatedAt = time.Now()
 
 	// Perform the update operation on the user
-	result = database.GetDB().Model(&book).Updates(book)
+	result = database.GetInstanceOfApplicationDatabase().Model(&book).Updates(book)
 	if result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to update user"})
 		return
@@ -181,7 +181,7 @@ func DeleteBook(c *gin.Context) {
 
 	// Fetch book from database
 	book := models.Book{}
-	result := database.GetDB().First(&book, id)
+	result := database.GetInstanceOfApplicationDatabase().First(&book, id)
 	if result.Error != nil {
 		c.IndentedJSON(http.StatusNotFound, gin.H{"error": "book not found"})
 		return
@@ -195,7 +195,7 @@ func DeleteBook(c *gin.Context) {
 
 	// Delete the user from the DB
 
-	result = database.GetDB().Delete(&book)
+	result = database.GetInstanceOfApplicationDatabase().Delete(&book)
 	if result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete book"})
 		return

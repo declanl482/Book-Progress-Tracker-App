@@ -10,7 +10,7 @@ import (
 func DBConnectionMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// Check if the database connection is valid
-		if database.GetDB() == nil {
+		if database.GetInstanceOfApplicationDatabase() == nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Database connection error"})
 			c.Abort()
 			return

@@ -20,7 +20,7 @@ func main() {
 		return
 	}
 
-	_, err = database.ConnectToDB()
+	_, err = database.ConnectToApplicationDatabase()
 	if err != nil {
 		fmt.Println("Failed to connect to the database:", err)
 		return

@@ -22,7 +22,7 @@ func LoginUser(c *gin.Context) {
 	}
 	// Verify the user . Fetch them from the database via email
 	var user models.User
-	result := database.GetDB().Where("email = ?", credentials.Email).First(&user)
+	result := database.GetInstanceOfApplicationDatabase().Where("email = ?", credentials.Email).First(&user)
 	if result.Error != nil {
 		fmt.Println("failed to fetch!")
 		c.JSON(http.StatusForbidden, gin.H{"error": "invalid credentials"})

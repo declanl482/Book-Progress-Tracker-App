@@ -78,7 +78,7 @@ func GetCurrentUserFromAccessToken(c *gin.Context) *models.User {
 
 	// retrieve the user from the database using their id
 	var user models.User
-	result := database.GetDB().First(&user, userID)
+	result := database.GetInstanceOfApplicationDatabase().First(&user, userID)
 	if result.Error != nil {
 
 		return nil

@@ -24,7 +24,7 @@ func CreateUser(c *gin.Context) {
 
 	fmt.Println("original password:", newUser.Password)
 
-	db := database.GetDB()
+	db := database.GetInstanceOfApplicationDatabase()
 
 	// check if the email is actively in use
 
@@ -71,7 +71,7 @@ func GetUser(c *gin.Context) {
 
 	var user models.User
 	// find the user with the current user's id, preload their books
-	result := database.GetDB().Preload("Books").First(&user, currentUser.ID)
+	result := database.GetInstanceOfApplicationDatabase().Preload("Books").First(&user, currentUser.ID)
 	if result.Error != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "user not found"})
 		return
@@ -121,7 +121,7 @@ func UpdateUser(c *gin.Context) {
 	// Fetch the user from the database
 
 	user := models.User{}
-	result := database.GetDB().First(&user, id)
+	result := database.GetInstanceOfApplicationDatabase().First(&user, id)
 
 	if result.Error != nil {
 		c.IndentedJSON(http.StatusNotFound, gin.H{"error": "user not found"})
@@ -143,7 +143,7 @@ func UpdateUser(c *gin.Context) {
 	user.UpdatedAt = time.Now()
 
 	// Perform the update operation on the user
-	result = database.GetDB().Model(&user).Updates(user)
+	result = database.GetInstanceOfApplicationDatabase().Model(&user).Updates(user)
 	if result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to update user"})
 		return
@@ -171,7 +171,7 @@ func DeleteUser(c *gin.Context) {
 
 	// Fetch user from database
 	user := models.User{}
-	result := database.GetDB().First(&user, id)
+	result := database.GetInstanceOfApplicationDatabase().First(&user, id)
 	if result.Error != nil {
 		c.IndentedJSON(http.StatusNotFound, gin.H{"error": "user not found"})
 		return
@@ -185,7 +185,7 @@ func DeleteUser(c *gin.Context) {
 
 	// Delete the user from the DB
 
-	result = database.GetDB().Delete(&user)
+	result = database.GetInstanceOfApplicationDatabase().Delete(&user)
 	if result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete user"})
 		return
