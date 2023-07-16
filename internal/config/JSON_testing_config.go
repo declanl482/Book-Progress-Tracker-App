@@ -12,7 +12,7 @@ type JSONTestingConfig struct {
 	TestDatabaseUsername     string `json:"test_database_username"`
 	TestDatabasePassword     string `json:"test_database_password"`
 	TestDatabaseTimezone     string `json:"test_database_timezone"`
-	TestAccessTokenSecretKey string `json:"test_database_secret_key"`
+	TestAccessTokenSecretKey string `json:"test_access_token_secret_key"`
 }
 
 // LoadJSONConfig loads the configuration values from a JSON file.

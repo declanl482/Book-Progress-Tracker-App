@@ -34,5 +34,6 @@ func LoadTestingConfigurationVariables() error {
 		TestDatabaseTimezone:     os.Getenv("TEST_DATABASE_TIMEZONE"),
 		TestAccessTokenSecretKey: os.Getenv("TEST_ACCESS_TOKEN_SECRET_KEY"),
 	}
+
 	return nil
 }
