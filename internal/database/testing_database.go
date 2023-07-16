@@ -72,6 +72,6 @@ func ConnectToTestingDatabase() (*gorm.DB, error) {
 }
 
 func GetInstanceOfTestingDatabase() *gorm.DB {
-	// Return an instance of the application database of type *gorm.DB.
+	// Return an instance of the testing database of type *gorm.DB.
 	return testingDatabase
 }

@@ -22,7 +22,7 @@ var TestConfig TestingConfig
 func LoadTestingConfigurationVariables() error {
 	err := godotenv.Load("C:/Users/13dli/go/src/github.com/declanl482/go-book-tracker-app/.env.test")
 	if err != nil {
-		return fmt.Errorf("error in function LoadTestingConfigurationVariables ; failed to load .env file: \n%v", err)
+		return fmt.Errorf("error in function LoadTestingConfigurationVariables ; failed to load .env.test file: \n%v", err)
 	}
 
 	TestConfig = TestingConfig{
