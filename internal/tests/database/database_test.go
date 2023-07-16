@@ -3,7 +3,7 @@ package database_test
 import (
 	"example/go-book-tracker-app/internal/config"
 	"example/go-book-tracker-app/internal/database"
-	"os"
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -12,33 +12,35 @@ import (
 func TestDatabase(t *testing.T) {
 	// (1) Tests the configuration of the testing database DSN.
 	t.Run("ConfigureTestingDatabaseDSN", func(t *testing.T) {
-		// Set up test-specific environment variables in the testing environment, using dummy values.
-		os.Setenv("TEST_DATABASE_HOSTNAME", "test_database_hostname")
-		os.Setenv("TEST_DATABASE_PORT", "test_database_port")
-		os.Setenv("TEST_DATABASE_NAME", "test_database_name")
-		os.Setenv("TEST_DATABASE_USERNAME", "test_database_username")
-		os.Setenv("TEST_DATABASE_PASSWORD", "test_database_password")
-		os.Setenv("TEST_DATABASE_TIMEZONE", "test_database_timezone")
-		os.Setenv("TEST_ACCESS_TOKEN_SECRET_KEY", "test_access_token_secret_key")
 
+		// Load the testing-level configuration variables from the JSON file.
+		jsonConfig, err := config.LoadJSONTestingConfigurationVariables("C:/Users/13dli/go/src/github.com/declanl482/go-book-tracker-app/testing_config.json")
+
+		// TEST MAY FAIL HERE.
+		assert.NoError(t, err, "Failed to load JSON configuration variables for the testing database.")
 		// Load the testing-level configuration variables.
-		err := config.LoadTestingConfigurationVariables()
+		err = config.LoadTestingConfigurationVariables()
 
 		// TEST MAY FAIL HERE.
 		// Assert that there is no error when loading testing-level configuration variables.
-		if assert.NoError(t, err, "\nFailed to load testing-level configuration variables.\n") {
-			// Configure the DSN for the testing database.
-			actualDSN := database.ConfigureTestingDatabaseDSN()
+		assert.NoError(t, err, "\nFailed to load testing-level configuration variables.\n")
 
-			// Hard code the expected DSN for the testing database.
-			expectedDSN := "host=test_database_hostname user=test_database_username password=test_database_password dbname=test_database_name port=test_database_port sslmode=disable TimeZone=test_database_timezone"
+		// Configure the DSN for the testing database.
+		actualDSN := database.ConfigureTestingDatabaseDSN()
 
-			// Assert that the actual DSN matches the expected DSN for the testing database.
-			assert.Equal(t, expectedDSN, actualDSN, "Configured DSN should match expected DSN. (Got: %v; Expected: %v)", actualDSN, expectedDSN)
+		// Hard code the expected DSN for the testing database.
+		expectedDSN := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=%s",
+			jsonConfig.TestDatabaseHostname,
+			jsonConfig.TestDatabaseUsername,
+			jsonConfig.TestDatabasePassword,
+			jsonConfig.TestDatabaseName,
+			jsonConfig.TestDatabasePort,
+			jsonConfig.TestDatabaseTimezone)
+		// Assert that the actual DSN matches the expected DSN for the testing database.
+		assert.Equal(t, expectedDSN, actualDSN, "Configured DSN should match expected DSN. (Got: %v; Expected: %v)", actualDSN, expectedDSN)
 
-			// TEST PASSED.
-			t.Logf("Successfully configured the testing database DSN.")
-		}
+		// TEST PASSED.
+		t.Logf("Successfully configured the testing database DSN.")
 	})
 
 	// (2) Tests the opening of a connection to the specified PostgreSQL testing database.

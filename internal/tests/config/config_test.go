@@ -2,7 +2,6 @@ package config_test
 
 import (
 	"example/go-book-tracker-app/internal/config"
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -13,12 +12,13 @@ func TestConfigurationVariables(t *testing.T) {
 	t.Run("LoadTestingConfigurationVariables", func(t *testing.T) {
 		// Load the testing-level configuration variables.
 		err := config.LoadTestingConfigurationVariables()
+
 		// TEST MAY FAIL HERE.
 		// Assert that there is no error when loading testing-level configuration variables.
-		if assert.NoError(t, err, "\nFailed to load testing-level configuration variables.\n") {
-			// TEST PASSED.
-			t.Logf("Successfully loaded testing-level configuration variables.")
-		}
+		assert.NoError(t, err, "\nFailed to load testing-level configuration variables.\n")
+
+		// TEST PASSED.
+		t.Logf("Successfully loaded testing-level configuration variables.")
 	})
 
 	// (1b) Verifies that the loaded testing-level configuration variables match the expected test-specific values.
@@ -26,13 +26,12 @@ func TestConfigurationVariables(t *testing.T) {
 
 		// Load the testing-level configuration variables from the JSON file.
 		jsonConfig, err := config.LoadJSONTestingConfigurationVariables("C:/Users/13dli/go/src/github.com/declanl482/go-book-tracker-app/testing_config.json")
+
+		// TEST MAY FAIL HERE.
 		assert.NoError(t, err, "Failed to load JSON configuration variables for the testing database.")
 
-		fmt.Println(jsonConfig.TestAccessTokenSecretKey)
 		// Load the testing-level configuration variables.
 		err = config.LoadTestingConfigurationVariables()
-
-		fmt.Println(config.TestConfig.TestAccessTokenSecretKey)
 
 		// TEST MAY FAIL HERE.
 		// Assert that there is no error when loading testing-level configuration variables.
