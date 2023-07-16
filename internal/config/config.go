@@ -7,7 +7,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-type Config struct {
+type ApplicationConfig struct {
 	DatabaseHostname     string
 	DatabasePort         string
 	DatabaseName         string
@@ -17,7 +17,7 @@ type Config struct {
 	AccessTokenSecretKey string
 }
 
-var AppConfig Config
+var AppConfig ApplicationConfig
 
 func LoadApplicationConfigurationVariables() error {
 	err := godotenv.Load("C:/Users/13dli/go/src/github.com/declanl482/go-book-tracker-app/.env")
@@ -26,7 +26,7 @@ func LoadApplicationConfigurationVariables() error {
 		return fmt.Errorf("error in function LoadApplicationConfigurationVariables() ; failed to load .env file: %v", err)
 	}
 
-	AppConfig = Config{
+	AppConfig = ApplicationConfig{
 		DatabaseHostname:     os.Getenv("DATABASE_HOSTNAME"),
 		DatabasePort:         os.Getenv("DATABASE_PORT"),
 		DatabaseName:         os.Getenv("DATABASE_NAME"),

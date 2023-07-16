@@ -1,0 +1,9 @@
+{
+    "TEST_DATABASE_HOSTNAME": "localhost",
+    "TEST_DATABASE_PORT": "5432",
+    "TEST_DATABASE_NAME": "go-book-tracker-test-db",
+    "TEST_DATABASE_USERNAME": "postgres",
+    "TEST_DATABASE_PASSWORD": "Q2xlYW5GcmllbmRseUNvZGVyMTIz",
+    "TEST_DATABASE_TIMEZONE": "America/New_York",
+    "TEST_ACCESS_TOKEN_SECRET_KEY": "your-secret-access-key-test"
+}
