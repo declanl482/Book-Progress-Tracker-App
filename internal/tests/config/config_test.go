@@ -40,15 +40,14 @@ func TestConfigurationVariables(t *testing.T) {
 		// TEST MAY FAIL HERE.
 		// Assert that the loaded testing-level configuration variables match the expected test-specific values.
 		assert.Equal(t, jsonConfig.TestDatabaseHostname, config.TestConfig.TestDatabaseHostname, "Testing database hostname should match expected value. (Got: %v; Expected: %v)", config.TestConfig.TestDatabaseHostname, jsonConfig.TestDatabaseHostname)
-		assert.Equal(t, jsonConfig.TestDatabasePort, config.TestConfig.TestDatabasePort, "Testing database port should match dummy test value. (Got: %v; Expected: %v)", config.TestConfig.TestDatabasePort, jsonConfig.TestDatabasePort)
-		assert.Equal(t, jsonConfig.TestDatabaseName, config.TestConfig.TestDatabaseName, "Testing database name should match dummy test value. (Got: %v; Expected: %v)", config.TestConfig.TestDatabaseName, jsonConfig.TestDatabaseName)
-		assert.Equal(t, jsonConfig.TestDatabaseUsername, config.TestConfig.TestDatabaseUsername, "Testing database username should match dummy test value. (Got: %v; Expected: %v)", config.TestConfig.TestDatabaseUsername, jsonConfig.TestDatabaseUsername)
-		assert.Equal(t, jsonConfig.TestDatabasePassword, config.TestConfig.TestDatabasePassword, "Testing database password should match dummy test value. (Got: %v; Expected: %v)", config.TestConfig.TestDatabasePassword, jsonConfig.TestDatabasePassword)
-		assert.Equal(t, jsonConfig.TestDatabaseTimezone, config.TestConfig.TestDatabaseTimezone, "Testing database timezone should match dummy test value. (Got: %v; Expected: %v)", config.TestConfig.TestDatabaseTimezone, jsonConfig.TestDatabaseTimezone)
-		assert.Equal(t, jsonConfig.TestAccessTokenSecretKey, config.TestConfig.TestAccessTokenSecretKey, "Testing access-token secret key should match dummy test value. (Got: %v; Expected: %v)", config.TestConfig.TestAccessTokenSecretKey, jsonConfig.TestAccessTokenSecretKey)
+		assert.Equal(t, jsonConfig.TestDatabasePort, config.TestConfig.TestDatabasePort, "Testing database port should match expected value. (Got: %v; Expected: %v)", config.TestConfig.TestDatabasePort, jsonConfig.TestDatabasePort)
+		assert.Equal(t, jsonConfig.TestDatabaseName, config.TestConfig.TestDatabaseName, "Testing database name should match expected value. (Got: %v; Expected: %v)", config.TestConfig.TestDatabaseName, jsonConfig.TestDatabaseName)
+		assert.Equal(t, jsonConfig.TestDatabaseUsername, config.TestConfig.TestDatabaseUsername, "Testing database username should match expected valuee. (Got: %v; Expected: %v)", config.TestConfig.TestDatabaseUsername, jsonConfig.TestDatabaseUsername)
+		assert.Equal(t, jsonConfig.TestDatabasePassword, config.TestConfig.TestDatabasePassword, "Testing database password should match expected value. (Got: %v; Expected: %v)", config.TestConfig.TestDatabasePassword, jsonConfig.TestDatabasePassword)
+		assert.Equal(t, jsonConfig.TestDatabaseTimezone, config.TestConfig.TestDatabaseTimezone, "Testing database timezone should match expected value. (Got: %v; Expected: %v)", config.TestConfig.TestDatabaseTimezone, jsonConfig.TestDatabaseTimezone)
+		assert.Equal(t, jsonConfig.TestAccessTokenSecretKey, config.TestConfig.TestAccessTokenSecretKey, "Testing access-token secret key should match expected value. (Got: %v; Expected: %v)", config.TestConfig.TestAccessTokenSecretKey, jsonConfig.TestAccessTokenSecretKey)
 
 		// TEST PASSED.
 		t.Logf("Successfully matched the testing-level configuration values with expected test-specific values.")
 	})
-
 }
