@@ -5,9 +5,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"example/go-book-tracker-app/internal/api/routers"
-	"example/go-book-tracker-app/internal/config"
-	"example/go-book-tracker-app/internal/database"
+	"example/go-book-tracker-app/api/routers"
+	"example/go-book-tracker-app/config"
+	"example/go-book-tracker-app/database"
 
 	_ "github.com/lib/pq"
 )

@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"example/go-book-tracker-app/internal/api/models"
-	"example/go-book-tracker-app/internal/database"
-	"example/go-book-tracker-app/internal/middlewares"
+	"example/go-book-tracker-app/api/models"
+	"example/go-book-tracker-app/database"
+	"example/go-book-tracker-app/middlewares"
 	"fmt"
 	"net/http"
 	"strconv"

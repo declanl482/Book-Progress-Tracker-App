@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	"example/go-book-tracker-app/internal/database"
+	"example/go-book-tracker-app/database"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

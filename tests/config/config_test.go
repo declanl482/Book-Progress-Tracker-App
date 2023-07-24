@@ -1,7 +1,7 @@
 package config_test
 
 import (
-	"example/go-book-tracker-app/internal/config"
+	"example/go-book-tracker-app/config"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

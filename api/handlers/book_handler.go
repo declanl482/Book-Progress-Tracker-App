@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"example/go-book-tracker-app/internal/api/models"
-	"example/go-book-tracker-app/internal/database"
+	"example/go-book-tracker-app/api/models"
+	"example/go-book-tracker-app/database"
 	"time"
 
 	"github.com/gin-gonic/gin"

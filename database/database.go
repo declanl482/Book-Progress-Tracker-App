@@ -4,8 +4,8 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
-	"example/go-book-tracker-app/internal/api/models"
-	"example/go-book-tracker-app/internal/config"
+	"example/go-book-tracker-app/api/models"
+	"example/go-book-tracker-app/config"
 	"fmt"
 
 	_ "github.com/lib/pq"

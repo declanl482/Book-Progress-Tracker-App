@@ -1,8 +1,8 @@
 package routers
 
 import (
-	"example/go-book-tracker-app/internal/api/handlers"
-	"example/go-book-tracker-app/internal/middlewares"
+	"example/go-book-tracker-app/api/handlers"
+	"example/go-book-tracker-app/middlewares"
 
 	"github.com/gin-gonic/gin"
 )
