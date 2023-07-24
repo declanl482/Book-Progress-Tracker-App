@@ -27,7 +27,7 @@ type Configuration struct {
 var Config Configuration
 
 func LoadConfigurationVariables() error {
-	err := godotenv.Load("C:/Users/13dli/go/src/github.com/declanl482/book-tracker-app/.env")
+	err := godotenv.Load("C:/Users/13dli/go/src/github.com/declanl482/go-book-tracker-app/.env")
 	if err != nil {
 		fmt.Println(err)
 		return fmt.Errorf("error in function LoadConfigurationVariables() ; failed to load .env file: %v", err)
