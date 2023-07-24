@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"example/go-book-tracker-app/api/models"
 	"example/go-book-tracker-app/database"
+	"example/go-book-tracker-app/types"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -13,13 +13,13 @@ import (
 
 func CreateBook(c *gin.Context) {
 
-	currentUser := c.MustGet("currentUser").(*models.User)
+	currentUser := c.MustGet("currentUser").(*types.User)
 
 	if currentUser == nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
 	}
-	var newBook models.Book
+	var newBook types.Book
 
 	// Call ShouldBindJSON to bind received JSON to newBook
 	if err := c.ShouldBindJSON(&newBook); err != nil {
@@ -47,13 +47,13 @@ func CreateBook(c *gin.Context) {
 
 func GetBooks(c *gin.Context) {
 
-	currentUser := c.MustGet("currentUser").(*models.User)
+	currentUser := c.MustGet("currentUser").(*types.User)
 	if currentUser == nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
 	}
 
-	var books []models.Book
+	var books []types.Book
 
 	// Retrieve all books from the database where book[i].ownerID == currentUser.ID
 
@@ -72,7 +72,7 @@ func GetBooks(c *gin.Context) {
 func GetBook(c *gin.Context) {
 
 	// check that the user is authenticated
-	currentUser := c.MustGet("currentUser").(*models.User)
+	currentUser := c.MustGet("currentUser").(*types.User)
 	if currentUser == nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
@@ -87,7 +87,7 @@ func GetBook(c *gin.Context) {
 
 	// Fetch the requested book from the database
 
-	book := models.Book{}
+	book := types.Book{}
 	result := database.GetInstanceOfApplicationDatabase().First(&book, id)
 
 	if result.Error != nil {
@@ -112,7 +112,7 @@ func GetBook(c *gin.Context) {
 func UpdateBook(c *gin.Context) {
 
 	// check that the user is authenticated
-	currentUser := c.MustGet("currentUser").(*models.User)
+	currentUser := c.MustGet("currentUser").(*types.User)
 	if currentUser == nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
@@ -126,7 +126,7 @@ func UpdateBook(c *gin.Context) {
 	}
 
 	// Fetch book from database
-	book := models.Book{}
+	book := types.Book{}
 
 	result := database.GetInstanceOfApplicationDatabase().First(&book, id)
 	if result.Error != nil {
@@ -165,7 +165,7 @@ func UpdateBook(c *gin.Context) {
 func DeleteBook(c *gin.Context) {
 
 	// Get the current user sending the delete request
-	currentUser := c.MustGet("currentUser").(*models.User)
+	currentUser := c.MustGet("currentUser").(*types.User)
 
 	if currentUser == nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
@@ -180,7 +180,7 @@ func DeleteBook(c *gin.Context) {
 	}
 
 	// Fetch book from database
-	book := models.Book{}
+	book := types.Book{}
 	result := database.GetInstanceOfApplicationDatabase().First(&book, id)
 	if result.Error != nil {
 		c.IndentedJSON(http.StatusNotFound, gin.H{"error": "book not found"})

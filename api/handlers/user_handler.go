@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"example/go-book-tracker-app/api/models"
 	"example/go-book-tracker-app/database"
+	"example/go-book-tracker-app/types"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -14,7 +14,7 @@ import (
 )
 
 func CreateUser(c *gin.Context) {
-	var newUser models.User
+	var newUser types.User
 
 	if err := c.ShouldBindJSON(&newUser); err != nil {
 		fmt.Println("error occurs at binding")
@@ -28,7 +28,7 @@ func CreateUser(c *gin.Context) {
 
 	// check if the email is actively in use
 
-	var existingUser models.User
+	var existingUser types.User
 	result := db.Where("email = ?", newUser.Email).First(&existingUser)
 
 	if result.Error == nil {
@@ -63,13 +63,13 @@ func CreateUser(c *gin.Context) {
 
 func GetUser(c *gin.Context) {
 
-	currentUser := c.MustGet("currentUser").(*models.User)
+	currentUser := c.MustGet("currentUser").(*types.User)
 	if currentUser == nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
 	}
 
-	var user models.User
+	var user types.User
 	// find the user with the current user's id, preload their books
 	result := database.GetInstanceOfApplicationDatabase().Preload("Books").First(&user, currentUser.ID)
 	if result.Error != nil {
@@ -104,7 +104,7 @@ func GetUser(c *gin.Context) {
 func UpdateUser(c *gin.Context) {
 
 	// Get the current user sending the update request
-	currentUser := c.MustGet("currentUser").(*models.User)
+	currentUser := c.MustGet("currentUser").(*types.User)
 
 	if currentUser == nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
@@ -120,7 +120,7 @@ func UpdateUser(c *gin.Context) {
 
 	// Fetch the user from the database
 
-	user := models.User{}
+	user := types.User{}
 	result := database.GetInstanceOfApplicationDatabase().First(&user, id)
 
 	if result.Error != nil {
@@ -155,7 +155,7 @@ func UpdateUser(c *gin.Context) {
 func DeleteUser(c *gin.Context) {
 
 	// Get the current user sending the delete request
-	currentUser := c.MustGet("currentUser").(*models.User)
+	currentUser := c.MustGet("currentUser").(*types.User)
 
 	if currentUser == nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
@@ -170,7 +170,7 @@ func DeleteUser(c *gin.Context) {
 	}
 
 	// Fetch user from database
-	user := models.User{}
+	user := types.User{}
 	result := database.GetInstanceOfApplicationDatabase().First(&user, id)
 	if result.Error != nil {
 		c.IndentedJSON(http.StatusNotFound, gin.H{"error": "user not found"})

@@ -4,8 +4,8 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
-	"example/go-book-tracker-app/api/models"
 	"example/go-book-tracker-app/config"
+	"example/go-book-tracker-app/types"
 	"fmt"
 
 	_ "github.com/lib/pq"
@@ -39,7 +39,7 @@ func OpenConnectionToApplicationDatabase(dsn string) (*gorm.DB, error) {
 
 func MigrateTablesToApplicationDatabase() error {
 	// Migrate desired tables to the application database using pre-defined models from package models.
-	applicationDBError = applicationDatabase.AutoMigrate(&models.User{}, &models.Book{})
+	applicationDBError = applicationDatabase.AutoMigrate(&types.User{}, &types.Book{})
 	return applicationDBError
 }
 

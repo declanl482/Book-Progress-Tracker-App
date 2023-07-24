@@ -1,9 +1,9 @@
 package middlewares
 
 import (
-	"example/go-book-tracker-app/api/models"
 	"example/go-book-tracker-app/config"
 	"example/go-book-tracker-app/database"
+	"example/go-book-tracker-app/types"
 	"fmt"
 	"net/http"
 	"strings"
@@ -61,7 +61,7 @@ func VerifyJWTAccessToken(tokenString string) (string, error) {
 	return userID, nil
 }
 
-func GetCurrentUserFromAccessToken(c *gin.Context) *models.User {
+func GetCurrentUserFromAccessToken(c *gin.Context) *types.User {
 
 	// get access token from authorization header
 	authHeader := c.GetHeader("Authorization")
@@ -77,7 +77,7 @@ func GetCurrentUserFromAccessToken(c *gin.Context) *models.User {
 	}
 
 	// retrieve the user from the database using their id
-	var user models.User
+	var user types.User
 	result := database.GetInstanceOfApplicationDatabase().First(&user, userID)
 	if result.Error != nil {
 

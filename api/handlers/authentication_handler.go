@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"example/go-book-tracker-app/api/models"
 	"example/go-book-tracker-app/database"
 	"example/go-book-tracker-app/middlewares"
+	"example/go-book-tracker-app/types"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -13,7 +13,7 @@ import (
 )
 
 func LoginUser(c *gin.Context) {
-	var credentials models.UserCredentials
+	var credentials types.Credentials
 
 	// Bind the request body to the UserCredentials struct
 	if err := c.ShouldBind(&credentials); err != nil {
@@ -21,7 +21,7 @@ func LoginUser(c *gin.Context) {
 		return
 	}
 	// Verify the user . Fetch them from the database via email
-	var user models.User
+	var user types.User
 	result := database.GetInstanceOfApplicationDatabase().Where("email = ?", credentials.Email).First(&user)
 	if result.Error != nil {
 		fmt.Println("failed to fetch!")
