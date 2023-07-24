@@ -3,33 +3,43 @@ package main
 import (
 	"fmt"
 
-	"github.com/gin-gonic/gin"
-
-	"example/go-book-tracker-app/api/routers"
-	"example/go-book-tracker-app/config"
-	"example/go-book-tracker-app/database"
-
-	_ "github.com/lib/pq"
+	"github.com/declanl482/go-book-tracker-app/api"
+	"github.com/declanl482/go-book-tracker-app/config"
+	"github.com/declanl482/go-book-tracker-app/storage"
 )
 
 func main() {
 
-	err := config.LoadApplicationConfigurationVariables()
+	// listenAddress := flag.String("listenAddress", ":8000", "the server address")
+	listenAddress := ":8000"
+
+	err := config.LoadConfigurationVariables()
 	if err != nil {
-		fmt.Println("Failed to load application configuration variables:", err)
+		fmt.Println("Failed to load configuration variables:", err)
 		return
 	}
 
-	_, err = database.ConnectToApplicationDatabase()
+	hostname := config.Config.DatabaseHostname
+	username := config.Config.DatabaseUsername
+	password := config.Config.DatabasePassword
+	name := config.Config.DatabaseName
+	port := config.Config.DatabasePort
+	timezone := config.Config.DatabaseTimezone
+
+	// Create a new instance of PostgresStorage.
+	postgresStorage, err := storage.NewPostgresStorage(hostname, username, password, name, port, timezone)
 	if err != nil {
-		fmt.Println("Failed to connect to the database:", err)
-		return
+		// Handle the error if any.
+		panic(err)
 	}
 
-	router := gin.Default()
-	routers.ConfigureAuthenticationRoutes(router)
-	routers.ConfigureUserRoutes(router)
-	routers.ConfigureBookRoutes(router)
+	// Create a new instance of the Server with the UserStorage and BookStorage implementations.
+	server := api.NewServer(listenAddress, postgresStorage)
 
-	router.Run("localhost:8000")
+	// Start the server.
+	err = server.Start()
+	if err != nil {
+		// Handle the error if any.
+		panic(err)
+	}
 }
