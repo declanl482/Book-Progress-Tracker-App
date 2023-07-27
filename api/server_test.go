@@ -16,15 +16,15 @@ import (
 func TestServerFunctions(t *testing.T) {
 
 	// create a new postgres storage (test db), and use it to create a new server
-	err := config.LoadConfigurationVariables()
+	configuration, err := config.LoadConfigurationVariables()
 	assert.NoError(t, err, "expected no error when loading config variables, got: %v.", err)
 
-	hostname := config.Config.TestDatabaseHostname
-	username := config.Config.TestDatabaseUsername
-	password := config.Config.TestDatabasePassword
-	name := config.Config.TestDatabaseName
-	port := config.Config.TestDatabasePort
-	timezone := config.Config.TestDatabaseTimezone
+	hostname := configuration.TestDatabaseHostname
+	username := configuration.TestDatabaseUsername
+	password := configuration.TestDatabasePassword
+	name := configuration.TestDatabaseName
+	port := configuration.TestDatabasePort
+	timezone := configuration.TestDatabaseTimezone
 
 	store, err := storage.NewPostgresStorage(hostname, username, password, name, port, timezone)
 	assert.NoError(t, err, "expected no error when creating PostgresStorage for testing database, got: %v.", err)

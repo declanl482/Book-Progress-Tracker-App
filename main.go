@@ -13,18 +13,18 @@ func main() {
 	// listenAddress := flag.String("listenAddress", ":8000", "the server address")
 	listenAddress := ":8000"
 
-	err := config.LoadConfigurationVariables()
+	configuration, err := config.LoadConfigurationVariables()
 	if err != nil {
 		fmt.Println("Failed to load configuration variables:", err)
 		return
 	}
 
-	hostname := config.Config.DatabaseHostname
-	username := config.Config.DatabaseUsername
-	password := config.Config.DatabasePassword
-	name := config.Config.DatabaseName
-	port := config.Config.DatabasePort
-	timezone := config.Config.DatabaseTimezone
+	hostname := configuration.DatabaseHostname
+	username := configuration.DatabaseUsername
+	password := configuration.DatabasePassword
+	name := configuration.DatabaseName
+	port := configuration.DatabasePort
+	timezone := configuration.DatabaseTimezone
 
 	// Create a new instance of PostgresStorage.
 	postgresStorage, err := storage.NewPostgresStorage(hostname, username, password, name, port, timezone)

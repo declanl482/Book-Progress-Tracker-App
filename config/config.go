@@ -3,9 +3,26 @@ package config
 import (
 	"fmt"
 	"os"
+	"regexp"
 
 	"github.com/joho/godotenv"
 )
+
+const projectDirName = "go-book-tracker-app"
+
+func loadEnv() error {
+	projectName := regexp.MustCompile(`^(.*` + projectDirName + `)`)
+	currentWorkDirectory, _ := os.Getwd()
+
+	rootPath := projectName.Find([]byte(currentWorkDirectory))
+
+	err := godotenv.Load(string(rootPath) + `/.env`)
+
+	if err != nil {
+		return fmt.Errorf("failed to load .env file: %v", err)
+	}
+	return nil
+}
 
 type Configuration struct {
 	DatabaseHostname         string
@@ -26,11 +43,10 @@ type Configuration struct {
 
 var Config Configuration
 
-func LoadConfigurationVariables() error {
-	err := godotenv.Load("C:/Users/13dli/go/src/github.com/declanl482/go-book-tracker-app/.env")
+func LoadConfigurationVariables() (*Configuration, error) {
+	err := loadEnv()
 	if err != nil {
-		fmt.Println(err)
-		return fmt.Errorf("error in function LoadConfigurationVariables() ; failed to load .env file: %v", err)
+		return nil, err
 	}
 
 	Config = Configuration{
@@ -49,5 +65,5 @@ func LoadConfigurationVariables() error {
 		TestDatabaseTimezone:     os.Getenv("TEST_DATABASE_TIMEZONE"),
 		TestAccessTokenSecretKey: os.Getenv("TEST_ACCESS_TOKEN_SECRET_KEY"),
 	}
-	return nil
+	return &Config, nil
 }

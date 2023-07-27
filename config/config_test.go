@@ -3,11 +3,28 @@ package config
 import (
 	"fmt"
 	"os"
+	"regexp"
 	"testing"
 
 	"github.com/joho/godotenv"
 	"github.com/stretchr/testify/assert"
 )
+
+func loadTestEnv() error {
+	projectName := regexp.MustCompile(`^(.*` + projectDirName + `)`)
+	currentWorkDirectory, _ := os.Getwd()
+
+	fmt.Println(currentWorkDirectory)
+
+	rootPath := projectName.Find([]byte(currentWorkDirectory))
+
+	err := godotenv.Load(string(rootPath) + `/.env.test`)
+
+	if err != nil {
+		return fmt.Errorf("failed to load .env.test file: %v", err)
+	}
+	return nil
+}
 
 type TestConfiguration struct {
 	TestHostname        string
@@ -21,11 +38,11 @@ type TestConfiguration struct {
 
 var TestConfig TestConfiguration
 
-func LoadTestConfigurationVariables() error {
-	err := godotenv.Load("C:/Users/13dli/go/src/github.com/declanl482/go-book-tracker-app/.env.test")
+func LoadTestConfigurationVariables() (*TestConfiguration, error) {
+
+	err := loadTestEnv()
 	if err != nil {
-		fmt.Println(err)
-		return fmt.Errorf("error in function LoadConfigurationVariables() ; failed to load .env file: %v", err)
+		return nil, err
 	}
 
 	TestConfig = TestConfiguration{
@@ -37,23 +54,24 @@ func LoadTestConfigurationVariables() error {
 		TestTimezone:        os.Getenv("TEST_TIMEZONE"),
 		TestAccessSecretKey: os.Getenv("TEST_ACCESS_SECRET_KEY"),
 	}
-	return nil
+	return &TestConfig, nil
 }
 
 func TestConfigurationVariables(t *testing.T) {
-	err := LoadTestConfigurationVariables()
+	testConfig, err := LoadTestConfigurationVariables()
 	assert.NoError(t, err, "expected no error loading test configuration variables, got: %v.", err)
 
-	err = LoadConfigurationVariables()
+	var config *Configuration
+	config, err = LoadConfigurationVariables()
 	assert.NoError(t, err, "expected no error loading configuration variables, got: %v.", err)
 
-	assert.Equal(t, TestConfig.TestHostname, Config.TestDatabaseHostname)
-	assert.Equal(t, TestConfig.TestPort, Config.TestDatabasePort)
-	assert.Equal(t, TestConfig.TestName, Config.TestDatabaseName)
-	assert.Equal(t, TestConfig.TestUsername, Config.TestDatabaseUsername)
-	assert.Equal(t, TestConfig.TestPassword, Config.TestDatabasePassword)
-	assert.Equal(t, TestConfig.TestTimezone, Config.TestDatabaseTimezone)
-	assert.Equal(t, TestConfig.TestAccessSecretKey, Config.TestAccessTokenSecretKey)
+	assert.Equal(t, testConfig.TestHostname, config.TestDatabaseHostname)
+	assert.Equal(t, testConfig.TestPort, config.TestDatabasePort)
+	assert.Equal(t, testConfig.TestName, config.TestDatabaseName)
+	assert.Equal(t, testConfig.TestUsername, config.TestDatabaseUsername)
+	assert.Equal(t, testConfig.TestPassword, config.TestDatabasePassword)
+	assert.Equal(t, testConfig.TestTimezone, config.TestDatabaseTimezone)
+	assert.Equal(t, testConfig.TestAccessSecretKey, config.TestAccessTokenSecretKey)
 
 	t.Logf("Successfully loaded and verified configuration variables for testing database.")
 }
