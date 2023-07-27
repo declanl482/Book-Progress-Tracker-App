@@ -6,7 +6,7 @@ WORKDIR /app
 COPY . .
 
 # Build the Go application inside the /app directory.
-RUN go build -o Go-Book-Tracker-App
+RUN go build -o go-book-tracker-app
 
 # Expose the port your Go application is listening on.
 EXPOSE 8080

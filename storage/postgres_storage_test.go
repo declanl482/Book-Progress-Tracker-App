@@ -12,18 +12,15 @@ import (
 
 func TestStorageFunctions(t *testing.T) {
 	// Configure the testing database variables.
-	configuration, err := config.LoadConfigurationVariables()
-	if err != nil {
-		fmt.Println("Failed to load configuration variables:", err)
-		return
-	}
+	testConfig, err := config.LoadTestConfigurationVariables()
+	assert.NoError(t, err, "expected no error when loading test config variables, got: %v.", err)
 
-	testHostname := configuration.TestDatabaseHostname
-	testUsername := configuration.TestDatabaseUsername
-	testPassword := configuration.TestDatabasePassword
-	testDBName := configuration.TestDatabaseName
-	testPort := configuration.TestDatabasePort
-	testTimezone := configuration.TestDatabaseTimezone
+	testHostname := testConfig.TestDatabaseHostname
+	testUsername := testConfig.TestDatabaseUsername
+	testPassword := testConfig.TestDatabasePassword
+	testDBName := testConfig.TestDatabaseName
+	testPort := testConfig.TestDatabasePort
+	testTimezone := testConfig.TestDatabaseTimezone
 
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=%s",
 		testHostname,
