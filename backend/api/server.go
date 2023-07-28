@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/declanl482/go-book-tracker-app/storage"
+	"github.com/declanl482/go-book-tracker-app/backend/storage"
 	"github.com/gin-gonic/gin"
 )
 

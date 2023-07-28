@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/declanl482/go-book-tracker-app/config"
-	"github.com/declanl482/go-book-tracker-app/types"
+	"github.com/declanl482/go-book-tracker-app/backend/config"
+	"github.com/declanl482/go-book-tracker-app/backend/types"
 	"github.com/gin-gonic/gin"
 	"github.com/mitchellh/mapstructure"
 	"golang.org/x/crypto/bcrypt"

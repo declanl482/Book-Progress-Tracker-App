@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/declanl482/go-book-tracker-app/config"
-	"github.com/declanl482/go-book-tracker-app/storage"
-	"github.com/declanl482/go-book-tracker-app/types"
+	"github.com/declanl482/go-book-tracker-app/backend/config"
+	"github.com/declanl482/go-book-tracker-app/backend/storage"
+	"github.com/declanl482/go-book-tracker-app/backend/types"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 )

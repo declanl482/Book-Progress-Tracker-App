@@ -1,6 +1,6 @@
 package storage
 
-import "github.com/declanl482/go-book-tracker-app/types"
+import "github.com/declanl482/go-book-tracker-app/backend/types"
 
 type Storage interface {
 	CreateUser(user *types.User) (*types.User, error)

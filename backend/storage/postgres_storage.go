@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/declanl482/go-book-tracker-app/types"
+	"github.com/declanl482/go-book-tracker-app/backend/types"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )

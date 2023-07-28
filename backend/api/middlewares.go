@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/declanl482/go-book-tracker-app/config"
+	"github.com/declanl482/go-book-tracker-app/backend/config"
 	"github.com/gin-gonic/gin"
 )
 

@@ -50,7 +50,7 @@ var TestConfig TestConfiguration
 
 func LoadTestConfigurationVariables() (*TestConfiguration, error) {
 
-	err := godotenv.Load("../.env.test")
+	err := godotenv.Load("../../.env.test")
 	if err != nil {
 		return nil, err
 	}

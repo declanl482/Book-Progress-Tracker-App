@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
-	"github.com/declanl482/go-book-tracker-app/api"
-	"github.com/declanl482/go-book-tracker-app/config"
-	"github.com/declanl482/go-book-tracker-app/storage"
+	"github.com/declanl482/go-book-tracker-app/backend/api"
+	"github.com/declanl482/go-book-tracker-app/backend/config"
+	"github.com/declanl482/go-book-tracker-app/backend/storage"
 )
 
 func main() {
